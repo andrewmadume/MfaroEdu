@@ -29,15 +29,20 @@ Version 0.3.1 on 12 October adds audited incomplete-score resets, year-scoped te
 
 The interrupted Phase 4 session created UI/service drafts and a schema draft, but no accepted migration or working database workflows. The `phase4Enabled` flag is false: attendance, timetable, room and time-slot routes are unavailable. This phase is not complete. See `drafts/README.md` before resuming it.
 
-## Phase 5 — Finance (current)
+## Phase 5 — Finance (implemented)
 
 Version 0.5.0 implements fee categories/structures, learner billing accounts, invoice snapshots, append-only exact-amount ledger entries, payments received, receipts, concessions, audited reversals, voids, statements and fee reports. See `PHASE5.md`. Hosted service verification remains pending; the connected MfaroEdu project was inactive. The local implementation does not deploy migrations or use real school records.
 
+## Phase 6 — Communication and library (current)
+
+Version 0.6.0 adds announcement publication/withdrawal, role/class audiences, private in-app messaging, a personal notification center, authenticated announcement attachments and provider-neutral transport contracts. The library includes catalogue/copies, borrowing limits, issue/renew/return/lost workflows, immutable activity history, family-scoped access and inventory/overdue reporting. See `PHASE6.md`.
+
+The connected MfaroEdu project remains inactive. Database and Storage policy tests run locally; hosted Auth, PostgREST and actual Storage HTTP acceptance remain pending. No live messages, files or records were created. The GitHub source is updated after local verification.
+
 ## Later phases
 
-6. Communication/library: provider-neutral message transport interfaces, recipient authorization, private attachments, book copies and transactional circulation checks.
 7. Analytics/imports/integrations: server-side reporting, validation previews, atomic imports, safe exports, versioned offline drafts and explicit conflict resolution. Add platform billing and cross-school operator UI after independent security review.
 
 ## Deferred by design
 
-Attendance, timetable, communications, library, storage, document upload and data import/export remain deferred. Directory counts, academic results and finance data come from authorized database queries. Login/email recovery and real PostgREST behavior cannot be accepted solely from embedded database or mocked browser tests.
+Attendance, timetable, general document management, external messaging providers, data import/export and advanced integrations remain deferred. Private Storage attachments are implemented for announcements only. Application data comes from authorized database queries. Hosted Auth/PostgREST/Storage behavior cannot be accepted solely from embedded database and synthetic browser tests.

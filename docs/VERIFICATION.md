@@ -2,6 +2,16 @@
 
 Date: 6 October 2026
 
+## Phase 6 communication/library — 24 October 2026
+
+- Release 0.6.0 adds three CLI-scaffolded migrations; all 20 migrations apply successfully in embedded PostgreSQL. Existing foundation, people, academics and finance behavior remains covered. Phase 4 is still an unfinished, disabled draft.
+- 39 unit tests pass. New validation checks cover allowed upload types, size/name/path limits, trimmed message boundaries and calendar arithmetic across month/year/leap boundaries.
+- 222 PostgreSQL assertions pass: foundation 25, people 48, academics 44, finance 41 and Phase 6 64. New cases exercise role/class audiences, teacher restrictions, publication/withdrawal, immutable posts/files, pending upload recovery, deleted-object detection, private Storage policies, recipient relationships, family messaging settings, personal read state, private conversation access (including administrator denial), idempotency, pagination, catalogue snapshots, unique copies, borrower limits, renewals, returns, damage/loss, date/history checks, minimal librarian lookups, tenant isolation, audit and revoked access.
+- The Phase 6 Storage test shim models the bucket/object catalogue and runs real SQL grants/RLS. It does not emulate Supabase Storage HTTP, content validation, file bytes or actual concurrent clients. The checked-in SQL does not replace or recreate the real Storage schema.
+- The complete browser regression suite passes 50 cases (38 existing + 12 Phase 6), using synthetic protocol fixtures on desktop/mobile. New workflows cover draft/attach/publish/withdraw, notifications/read state, parent messaging, assigned-teacher audiences, book/copy registration, issue/renew/damaged return, parent read-only history and retained stale-return input.
+- Strict TypeScript and production/PWA build pass. The existing logo and white backing are retained. Desktop/mobile views were inspected; Phase 6 tabs explicitly use a horizontal layout on desktop and wrap on mobile.
+- The connected MfaroEdu project remains inactive. Its advisor API returned no existing security lints; new migrations were not applied, so this is not a validation of the Phase 6 schema. Hosted Auth/PostgREST/Storage, live concurrency, real object upload/download enforcement and deployed-schema advisors remain pending. No external messages or live uploads were made. The changelog markdown endpoint could not be retrieved; official Storage access-control/download documentation was consulted.
+
 ## Phase 5 finance — 22 October 2026
 
 - Release version 0.5.0. All 17 migrations apply in embedded PostgreSQL; the new migration was scaffolded with the official Supabase CLI (2.121.0), using a workspace-local CLI configuration directory after Windows denied its default location. The downloaded binary archive's SHA-512 matched the official npm integrity value.
@@ -82,5 +92,5 @@ At the initial release no Supabase project or local service stack was available.
 5. Hosted redirect URLs, SMTP, rate limits, production CSP, operational monitoring and restore procedures.
 6. PWA installation and update UX on physical iOS/Android devices.
 
-These checks must be completed before the application is accepted for production use. Phases 2, 3 and 5 were implemented locally at the user’s request while this gate remains open. No live school data was created or uploaded. Phase 4 is an unreleased draft; Phases 6–7 are planned.
+These checks must be completed before the application is accepted for production use. Phases 2, 3, 5 and 6 were implemented locally at the user’s request while this gate remains open. No live school data was created or uploaded. Phase 4 is an unreleased draft; Phase 7 is planned.
 

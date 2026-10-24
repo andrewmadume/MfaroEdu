@@ -12,6 +12,8 @@ import {
   Layers,
   CalendarDays,
   Wallet,
+  MessagesSquare,
+  LibraryBig,
 } from 'lucide-react';
 import { useSchool } from '../contexts/SchoolContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -33,6 +35,13 @@ export default function SchoolLayout({
     new Map(access.memberships.map((m) => [m.school_id, m.schools])).values(),
   );
   const nav = [
+    {
+      path: '/communication',
+      title: 'Communication hub',
+      icon: MessagesSquare,
+      permission: 'communication.view',
+    },
+    { path: '/library', title: 'School library', icon: LibraryBig, permission: 'library.view' },
     { path: '/finance', title: 'Fees & accounts', icon: Wallet, permission: 'finance.view' },
     ...(phase4Enabled
       ? [
@@ -136,7 +145,7 @@ export default function SchoolLayout({
           </Link>
           <div className="release-tag">
             <span />
-            Finance & accounts · v0.5
+            Communication & library · v0.6
           </div>
           <button
             className="signout"

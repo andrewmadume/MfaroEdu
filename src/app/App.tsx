@@ -22,6 +22,8 @@ const DirectoryPage = lazy(() => import('../pages/admin/DirectoryPage'));
 const AcademicsPage = lazy(() => import('../pages/admin/AcademicsPage'));
 const OperationsPage = lazy(() => import('../pages/admin/OperationsPage'));
 const FinancePage = lazy(() => import('../pages/admin/FinancePage'));
+const CommunicationPage = lazy(() => import('../pages/communication/CommunicationPage'));
+const LibraryPage = lazy(() => import('../pages/library/LibraryPage'));
 function RequirePermission({ permission, children }: { permission: string; children: ReactNode }) {
   const { permissions } = useSchool();
   return can(permissions, permission) ? (
@@ -116,6 +118,8 @@ export default function App() {
             <Route path="records/:entity" element={<DirectoryPage />} />
             <Route path="academics" element={<AcademicsPage />} />
             <Route path="finance" element={<FinancePage />} />
+            <Route path="communication" element={<CommunicationPage />} />
+            <Route path="library" element={<LibraryPage />} />
             {phase4Enabled && <Route path="operations" element={<OperationsPage />} />}
             <Route
               index

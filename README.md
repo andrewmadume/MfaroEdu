@@ -1,6 +1,6 @@
 # MfaroEdu
 
-A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.5.0** implements Phases 1–3 and **Phase 5 finance** from the supplied development brief. Phase 4 contains unfinished drafts and is disabled; Phases 6–7 remain planned. Live Supabase integration is pending: the connected MfaroEdu project was inactive when inspected.
+A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.6.0** implements Phases 1–3, Phase 5 finance and **Phase 6 communication/library** from the supplied development brief. Phase 4 contains unfinished drafts and is disabled; Phase 7 remains planned. Live Supabase integration is pending: the connected MfaroEdu project was inactive when inspected.
 
 ## MfaroEdu branding
 
@@ -50,6 +50,18 @@ See `docs/PHASE3.md` for calculation semantics, permissions and remaining servic
 
 See `docs/PHASE5.md` for usage, permissions, calculations and limits. Finance records money already received; it does not charge cards or initiate refunds.
 
+## Phase 6 communication and library
+
+- School-wide, class, teacher, parent and learner announcements, with draft/publish/withdraw workflows and immutable published content.
+- Personal notification center with unread state and current audience checks; private in-app conversations restricted to eligible recipients.
+- A school setting enables family messaging with assigned teachers and administrators. Only conversation participants can read messages, including when the administrator is not a participant.
+- Private announcement attachments through Supabase Storage, authenticated downloads, draft-only upload/removal and recoverable pending uploads. Five files per announcement, 5 MB per file; PDF, PNG, JPEG and text are supported.
+- Book catalogue, unique accession numbers for individual copies, shelf/condition/status tracking, atomic issues, renewals, returns, lost/damaged records and retained borrowing history.
+- Configurable borrowing limits, family-scoped history and current inventory/overdue reports. Librarians use minimal learner lookups without access to private learner profiles.
+- Provider-neutral transport interface for future email/SMS/WhatsApp adapters. This release delivers in-app messages only and sends no external communications.
+
+See `docs/PHASE6.md` for permissions, workflows, Storage acceptance and limits.
+
 ## Requirements and installation
 
 Use Node.js **24 LTS** and npm. The Vite config uses native TypeScript loading to avoid config bundler traversal issues in restricted Windows environments.
@@ -96,6 +108,9 @@ Migrations execute in filename order:
 15. `0015_phase3_subject_summary.sql`: authorized weighted draft subject totals.
 16. `0016_phase3_incomplete_marks.sql`: audited score resets and incomplete-result publication protection.
 17. `20261022110410_phase5_finance.sql`: finance settings, fees, immutable invoices/ledger, RLS and checked finance workflows. Scaffolded with the official Supabase CLI.
+18. `20261024173735_phase6_communications.sql`: announcements, private threads/messages, notifications, attachment metadata and checked communication APIs.
+19. `20261024173736_phase6_library.sql`: catalogue, copies, configurable circulation, loan events, family history and reporting APIs.
+20. `20261024173751_phase6_attachments.sql`: private attachment bucket and Storage RLS. These three migrations were scaffolded with the official CLI and require the standard Supabase Storage schema.
 
 The `private` schema must **never** be added to Supabase's exposed API schemas. Migrations assume the standard Supabase `auth.users`, `auth.uid()`, `anon`, `authenticated` and `service_role` setup. Keep infrastructure service-role privileges private. Regenerate database TypeScript types with the Supabase CLI when expanding the schema; current service boundaries use explicit domain types.
 

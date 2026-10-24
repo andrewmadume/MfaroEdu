@@ -39,7 +39,7 @@ const priorities: Record<string, string[]> = {
   ],
   LIBRARIAN: [
     'A home for your school library',
-    'Your catalogue and borrowing activity are planned for Phase 6.',
+    'Manage the catalogue, physical copies, borrowing and returns.',
   ],
 };
 export default function Dashboard() {
@@ -154,6 +154,26 @@ export default function Dashboard() {
         </>
       )}
       <div className="dashboard-grid">
+        {can(permissions, 'communication.view') && (
+          <section className="panel">
+            <span className="eyebrow">COMMUNICATION · PHASE 06</span>
+            <h2>Stay connected to your school.</h2>
+            <p>Read announcements, follow notifications and open your private conversations.</p>
+            <Link className="text-link" to="/communication">
+              Open communication hub <ArrowUpRight size={16} />
+            </Link>
+          </section>
+        )}
+        {can(permissions, 'library.view') && (
+          <section className="panel">
+            <span className="eyebrow">LIBRARY · PHASE 06</span>
+            <h2>Find a book. Follow its journey.</h2>
+            <p>Browse the catalogue and view the borrowing records available to you.</p>
+            <Link className="text-link" to="/library">
+              Open school library <ArrowUpRight size={16} />
+            </Link>
+          </section>
+        )}
         {can(permissions, 'finance.view') && (
           <section className="panel">
             <span className="eyebrow">FINANCE · PHASE 05</span>

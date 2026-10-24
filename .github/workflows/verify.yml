@@ -1,4 +1,4 @@
-name: Verify foundation
+name: Verify MfaroEdu
 on: [push, pull_request]
 jobs:
   verify:
