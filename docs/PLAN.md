@@ -33,16 +33,16 @@ The interrupted Phase 4 session created UI/service drafts and a schema draft, bu
 
 Version 0.5.0 implements fee categories/structures, learner billing accounts, invoice snapshots, append-only exact-amount ledger entries, payments received, receipts, concessions, audited reversals, voids, statements and fee reports. See `PHASE5.md`. Hosted service verification remains pending; the connected MfaroEdu project was inactive. The local implementation does not deploy migrations or use real school records.
 
-## Phase 6 — Communication and library (current)
+## Phase 6 — Communication and library (implemented)
 
 Version 0.6.0 adds announcement publication/withdrawal, role/class audiences, private in-app messaging, a personal notification center, authenticated announcement attachments and provider-neutral transport contracts. The library includes catalogue/copies, borrowing limits, issue/renew/return/lost workflows, immutable activity history, family-scoped access and inventory/overdue reporting. See `PHASE6.md`.
 
-The connected MfaroEdu project remains inactive. Database and Storage policy tests run locally; hosted Auth, PostgREST and actual Storage HTTP acceptance remain pending. No live messages, files or records were created. The GitHub source is updated after local verification.
+The MfaroEdu project is now healthy. Twenty migrations were deployed through the GitHub integration, and Vercel hosting and production Auth URLs were configured. Auth, PostgREST and Storage acceptance with actual user sessions remains open. No synthetic test users or school records were deployed.
 
-## Later phases
+## Phase 7 — Advanced capabilities (implemented locally)
 
-7. Analytics/imports/integrations: server-side reporting, validation previews, atomic imports, safe exports, versioned offline drafts and explicit conflict resolution. Add platform billing and cross-school operator UI after independent security review.
+Version 0.7.0 adds server reports, previewed atomic CSV imports, private paginated export snapshots, safe CSV downloads, offline catalogue drafts with idempotent synchronization/conflict review, calendar/JSON file integrations, privacy-limited analysis context and provisioned operator school oversight. See PHASE7.md. Platform billing and automated external-provider delivery remain outside this release.
 
 ## Deferred by design
 
-Attendance, timetable, general document management, external messaging providers, data import/export and advanced integrations remain deferred. Private Storage attachments are implemented for announcements only. Application data comes from authorized database queries. Hosted Auth/PostgREST/Storage behavior cannot be accepted solely from embedded database and synthetic browser tests.
+Attendance, timetable, general document management, external messaging providers, OAuth/provider delivery integrations remain deferred. Private Storage attachments are implemented for announcements only. Application data comes from authorized database queries. Hosted Auth/PostgREST/Storage behavior cannot be accepted solely from embedded database and synthetic browser tests.

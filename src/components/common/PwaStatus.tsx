@@ -31,7 +31,8 @@ export default function PwaStatus() {
     <>
       {!online && (
         <div className="connection-banner" role="status">
-          You’re offline. School records and changes require a connection.
+          You’re offline. Saved catalogue drafts remain available. School records and
+          synchronization require a connection.
         </div>
       )}
       {refresh && (

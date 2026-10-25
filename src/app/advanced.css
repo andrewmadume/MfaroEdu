@@ -1,0 +1,140 @@
+.advanced-workspace {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.advanced-workspace > *,
+.advanced-report > *,
+.offline-grid > * {
+  min-width: 0;
+}
+.advanced-report .panel,
+.advanced-metrics .panel {
+  margin: 0;
+}
+.advanced-tabs,
+.advanced-toolbar,
+.draft-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.advanced-tabs a {
+  padding: 10px;
+}
+.advanced-toolbar label {
+  flex: 1;
+  min-width: 150px;
+}
+.advanced-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+}
+.advanced-metrics strong {
+  font-size: 2rem;
+  color: var(--brand-blue);
+}
+.advanced-report {
+  display: grid;
+  gap: 18px;
+}
+.advanced-bar {
+  height: 9px;
+  min-width: 100px;
+  background: #e7edf7;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.advanced-bar span {
+  display: block;
+  height: 100%;
+  background: var(--brand-green);
+}
+.offline-shell,
+.platform-shell {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+}
+.offline-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+.offline-shell label {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+.offline-shell textarea {
+  min-height: 80px;
+}
+.offline-shell input,
+.offline-shell select {
+  max-width: 100%;
+}
+.offline-shell input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  margin: 0 8px 0 0;
+  vertical-align: middle;
+}
+.offline-grid > .panel {
+  margin: 0;
+}
+.offline-shell form h3 {
+  margin-top: 20px;
+}
+.conflict-panel button {
+  margin: 6px 6px 0 0;
+}
+.conflict-panel {
+  border: 2px solid #c88b06;
+  padding: 18px;
+  border-radius: 12px;
+}
+.conflict-panel pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.advanced-workspace .table-wrap {
+  overflow: auto;
+}
+.advanced-workspace .section-heading {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media (max-width: 760px) {
+  .offline-grid {
+    grid-template-columns: 1fr;
+  }
+  .offline-shell,
+  .platform-shell {
+    padding: 16px;
+  }
+  .advanced-toolbar {
+    align-items: stretch;
+  }
+  .advanced-toolbar button {
+    width: 100%;
+  }
+}
+@media print {
+  .advanced-tabs,
+  .advanced-toolbar,
+  button {
+    display: none !important;
+  }
+  .advanced-report .panel {
+    break-inside: avoid;
+  }
+  .advanced-bar {
+    print-color-adjust: exact;
+  }
+}

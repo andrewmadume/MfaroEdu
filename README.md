@@ -1,6 +1,6 @@
 # MfaroEdu
 
-A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.6.0** implements Phases 1–3, Phase 5 finance and **Phase 6 communication/library** from the supplied development brief. Phase 4 contains unfinished drafts and is disabled; Phase 7 remains planned. Live Supabase integration is pending: the connected MfaroEdu project was inactive when inspected.
+A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.7.0** implements Phases 1–3, finance, communication/library and **Phase 7 analytics, data transfer, offline catalogue drafts and platform oversight**. Phase 4 remains a disabled draft. Supabase migrations and Vercel hosting are connected to GitHub; real-user Auth, email and service acceptance checks remain open. See `docs/PHASE7.md` for scope and limits.
 
 ## MfaroEdu branding
 
@@ -62,6 +62,10 @@ See `docs/PHASE5.md` for usage, permissions, calculations and limits. Finance re
 
 See `docs/PHASE6.md` for permissions, workflows, Storage acceptance and limits.
 
+## Phase 7 advanced capabilities
+
+School-scoped server reports, validated atomic learner CSV imports, private export snapshots, formula-safe CSV downloads, versioned offline catalogue drafts with explicit conflict resolution, iCalendar/JSON integrations and provisioned platform-operator oversight. No third-party provider or AI service receives data automatically. See `docs/PHASE7.md`.
+
 ## Requirements and installation
 
 Use Node.js **24 LTS** and npm. The Vite config uses native TypeScript loading to avoid config bundler traversal issues in restricted Windows environments.
@@ -112,6 +116,8 @@ Migrations execute in filename order:
 19. `20261024173736_phase6_library.sql`: catalogue, copies, configurable circulation, loan events, family history and reporting APIs.
 20. `20261024173751_phase6_attachments.sql`: private attachment bucket and Storage RLS. These three migrations were scaffolded with the official CLI and require the standard Supabase Storage schema.
 
+21. `20261025125043_phase7_advanced.sql`: checked analytics, private expiring import/export snapshots and provisioned platform oversight. Offline catalogue synchronization uses the existing transactional library workflow.
+
 The `private` schema must **never** be added to Supabase's exposed API schemas. Migrations assume the standard Supabase `auth.users`, `auth.uid()`, `anon`, `authenticated` and `service_role` setup. Keep infrastructure service-role privileges private. Regenerate database TypeScript types with the Supabase CLI when expanding the schema; current service boundaries use explicit domain types.
 
 ## Development data
@@ -144,7 +150,7 @@ See `docs/VERIFICATION.md` for executed checks and remaining integration checks.
 
 ## Architecture
 
-UI lives in `src/pages`, shared layout in `src/layouts`, validation in `src/schemas`, data operations in `src/services`, and identity/school context in `src/contexts`. TanStack Query caches in memory only; tenant identifiers are part of query keys. No school records are persisted to browser storage. Supabase manages authentication token persistence; logout clears the application's query cache. The database is authoritative for permission decisions even if browser permissions are stale. Client access refreshes every minute and on window focus.
+UI lives in `src/pages`, shared layout in `src/layouts`, validation in `src/schemas`, data operations in `src/services`, and identity/school context in `src/contexts`. TanStack Query caches in memory only; tenant identifiers are part of query keys. Authenticated query results stay in memory. Opt-in non-personal catalogue drafts use account/school-scoped IndexedDB; learner, academic, message and finance records are not cached for offline access. Supabase manages authentication token persistence; logout clears the application's query cache. The database is authoritative for permission decisions even if browser permissions are stale. Client access refreshes every minute and on window focus.
 
 Permissions are data-driven through `roles`, `permissions` and `role_permissions`. School users cannot modify these definitions or grant platform access. Platform operators are provisioned through the private `platform_admins` table by trusted infrastructure administrators. A cross-school super-administration UI is not included. A user may hold multiple roles; route access is their union.
 
@@ -155,7 +161,7 @@ Phase 2 schema rule: use `(school_id, entity_id)` composite keys and foreign key
 - Active status is protected at database column level. A trusted identity administrator deactivates global profiles; school administrators can deactivate individual role memberships through the checked RPC.
 - An administrator cannot change their own role membership through the UI/RPC, and the last administrator cannot be removed. Account invitation/activation UI is deferred.
 - School and membership changes are audited without copying personal records into audit JSON. Supabase Auth's own audit logs cover identity events; this release does not duplicate login/logout events into school audit history.
-- No Storage bucket or document UI is provisioned yet. Add private, tenant-scoped storage policies with the document module before accepting uploads.
+- The Phase 6 private announcement-attachment bucket is provisioned. General learner/staff document management remains outside this release.
 - Require MFA for privileged accounts, configure session policies, monitor Auth audit logs, configure backups/restore drills and complete deployment security review before introducing learner data. These are deployment tasks, not claims of completed controls.
 - School creation is available to verified active accounts. Disable public signup in a closed rollout and introduce tenant quotas/abuse controls before opening commercial self-service registration.
 
@@ -163,7 +169,7 @@ Phase 2 schema rule: use `(school_id, entity_id)` composite keys and foreign key
 
 Run `npm run build` and publish `dist/` to your chosen HTTPS static host. Configure SPA rewrites to `/index.html`; do not rewrite asset requests. Use no-cache for `index.html`, `sw.js` and the manifest, and long immutable caching for hashed assets. Configure your host's CSP to allow only your app and exact Supabase HTTPS/WSS origins; set anti-framing and content-type protections. Test password reset using the production origin.
 
-The service worker precaches public application assets only; it never caches Supabase API traffic. On a new version, the user is asked to save their work before reloading. Installation availability varies by browser; the install button appears only when the browser supplies its install event. On iOS, use the browser's Add to Home Screen action. The initial request requires a connection. Reopened authenticated offline screens may show an error because live permissions cannot be checked. Offline attendance drafting and synchronization are deferred to Phase 7.
+The service worker precaches public application assets only; it never caches Supabase API traffic. On a new version, the user is asked to save their work before reloading. Installation availability varies by browser; the install button appears only when the browser supplies its install event. On iOS, use the browser's Add to Home Screen action. The initial request requires a connection. Reopened authenticated offline screens may show an error because live permissions cannot be checked. Phase 7 supports opt-in offline catalogue drafts with reviewed synchronization. Attendance and its offline workflow still require completion of Phase 4.
 
 ## Development plan
 

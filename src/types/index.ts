@@ -30,6 +30,7 @@ export interface Profile {
   active: boolean;
 }
 export interface Access {
+  platformAdmin?: boolean;
   memberships: Membership[];
   permissions: string[];
   profile: Profile;

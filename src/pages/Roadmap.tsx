@@ -39,16 +39,14 @@ export default function Roadmap() {
             <div>
               <div className="section-heading">
                 <h2>{name}</h2>
-                <span className={`badge ${i <= 2 || i === 4 || i === 5 ? 'green' : ''}`}>
+                <span className={`badge ${i !== 3 ? 'green' : ''}`}>
                   {i < 3
                     ? 'Implemented'
                     : i === 3
                       ? 'Draft · verification pending'
-                      : i === 5
+                      : i === 6
                         ? 'Current release'
-                        : i === 4
-                          ? 'Implemented'
-                          : 'Planned'}
+                        : 'Implemented'}
                 </span>
               </div>
               <p className="muted">{description}</p>

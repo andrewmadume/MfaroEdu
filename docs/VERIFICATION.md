@@ -1,5 +1,16 @@
 # Verification record
 
+## Phase 7 advanced capabilities — 25 October 2026
+
+- Version 0.7.0: server analytics, private import/export jobs, atomic learner CSV imports, consistent paginated exports, iCalendar and JSON integrations, AI-ready count contracts, account/school-scoped offline catalogue drafts, explicit conflict resolution and provisioned platform oversight.
+- 49 unit tests pass, including bounded RFC 4180 parsing, formula escaping, calendar injection/folding, and versioned draft validation.
+- 247 embedded PostgreSQL assertions pass across the six phase suites (25 Phase 7 assertions). New checks cover no-write validation previews, duplicate/date/column rejection, atomicity, idempotent retries, consistent 250-row snapshots, job expiry/quotas, actor ownership, revocation, tenant isolation, populated academic/finance aggregates, calendar ranges, privacy suppression, offline conflicts and platform-operator isolation.
+- 70 desktop/mobile browser checks pass, including fully offline draft reload after PWA caching, lost-response request-key preservation, separate conflict review/synchronization, import review/confirmation, real file downloads and role controls. The Phase 7 browser cases are rerun after final visual and draft-label refinements.
+- TypeScript and production/PWA build pass. Report and conflict screenshots inspected; corrected mobile grid overflow and catalogue-draft checkbox layout.
+- Tests use synthetic browser fixtures and embedded PostgreSQL with the explicitly test-only Storage shim. They do not create hosted users, deliver email, send data to providers or establish actual-user Auth/Storage acceptance.
+- Hosting status supersedes older entries below: Supabase is healthy, the first 20 migrations were deployed, Vercel is live at `https://mfaro-edu.vercel.app`, and production authentication URLs are configured. Phase 7 adds migration `20261025125043_phase7_advanced.sql`. Deployment is verified separately after publishing the release.
+- No attendance/offline-attendance implementation, automated provider delivery, AI decisions or billing enforcement is claimed. Private data-job expiry blocks reads after 15 minutes; physical cleanup is opportunistic at the next job for the school. Dormant-school cleanup remains an operational task.
+
 Date: 6 October 2026
 
 ## Phase 6 communication/library — 24 October 2026

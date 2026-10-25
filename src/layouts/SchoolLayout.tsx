@@ -35,6 +35,28 @@ export default function SchoolLayout({
     new Map(access.memberships.map((m) => [m.school_id, m.schools])).values(),
   );
   const nav = [
+    ...(access.platformAdmin
+      ? [
+          {
+            path: '/platform',
+            title: 'Platform administration',
+            icon: Settings,
+            permission: 'dashboard.view',
+          },
+        ]
+      : []),
+    {
+      path: `/offline?school=${school.id}&name=${encodeURIComponent(school.name)}`,
+      title: 'Offline catalogue drafts',
+      icon: LibraryBig,
+      permission: 'library.manage',
+    },
+    {
+      path: '/advanced',
+      title: 'Reports & data',
+      icon: ClipboardList,
+      permission: 'analytics.view',
+    },
     {
       path: '/communication',
       title: 'Communication hub',

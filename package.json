@@ -1,7 +1,7 @@
 {
   "name": "school-management",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "type": "module",
   "scripts": {
     "dev": "vite --configLoader native --host 127.0.0.1",
@@ -9,7 +9,7 @@
     "preview": "vite preview --configLoader native --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader native",
-    "test:db": "node scripts/test-database.mjs && node scripts/test-phase2.mjs && node scripts/test-phase3.mjs && node scripts/test-phase5.mjs && node scripts/test-phase6.mjs",
+    "test:db": "node scripts/test-database.mjs && node scripts/test-phase2.mjs && node scripts/test-phase3.mjs && node scripts/test-phase5.mjs && node scripts/test-phase6.mjs && node scripts/test-phase7.mjs",
     "test:e2e": "playwright test",
     "pretest:e2e": "node scripts/prepare-e2e.mjs"
   },

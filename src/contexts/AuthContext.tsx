@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
+import { clearDrafts } from '../lib/offlineDrafts';
 const Context = createContext<{
   session: Session | null;
   loading: boolean;
@@ -15,6 +16,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!supabase) return;
     let mounted = true;
     const { data } = supabase.auth.onAuthStateChange((_event, value) => {
+      if (_event === 'SIGNED_OUT') void clearDrafts().catch(() => {});
       if (mounted) {
         setSession(value);
         setLoading(false);

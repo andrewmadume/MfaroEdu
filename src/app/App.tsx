@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
 import { SchoolProvider, useSchool } from '../contexts/SchoolContext';
@@ -24,6 +24,9 @@ const OperationsPage = lazy(() => import('../pages/admin/OperationsPage'));
 const FinancePage = lazy(() => import('../pages/admin/FinancePage'));
 const CommunicationPage = lazy(() => import('../pages/communication/CommunicationPage'));
 const LibraryPage = lazy(() => import('../pages/library/LibraryPage'));
+const AdvancedPage = lazy(() => import('../pages/admin/AdvancedPage'));
+const OfflinePage = lazy(() => import('../pages/library/OfflinePage'));
+const PlatformPage = lazy(() => import('../pages/admin/PlatformPage'));
 function RequirePermission({ permission, children }: { permission: string; children: ReactNode }) {
   const { permissions } = useSchool();
   return can(permissions, permission) ? (
@@ -37,7 +40,9 @@ function RequirePermission({ permission, children }: { permission: string; child
 }
 function Workspace() {
   const { session, loading, signOut } = useAuth();
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(
+    () => new URLSearchParams(window.location.search).get('school') ?? '',
+  );
   const client = useQueryClient();
   const access = useQuery({
     queryKey: ['access', session?.user.id, selected],
@@ -79,6 +84,7 @@ function Workspace() {
     return (
       <main className="onboarding">
         <SchoolForm onSaved={() => access.refetch()} />
+        {access.data.platformAdmin && <Link to="/platform">Platform administration</Link>}
         <p className="muted">
           Joining an existing school? Ask its administrator to assign your account access.
         </p>
@@ -114,12 +120,15 @@ export default function App() {
         <Routes>
           <Route path="/auth/:mode" element={<AuthPage />} />
           <Route path="/roadmap" element={<Roadmap />} />
+          <Route path="/offline" element={<OfflinePage />} />
+          <Route path="/platform" element={<PlatformPage />} />
           <Route element={<Workspace />}>
             <Route path="records/:entity" element={<DirectoryPage />} />
             <Route path="academics" element={<AcademicsPage />} />
             <Route path="finance" element={<FinancePage />} />
             <Route path="communication" element={<CommunicationPage />} />
             <Route path="library" element={<LibraryPage />} />
+            <Route path="advanced" element={<AdvancedPage />} />
             {phase4Enabled && <Route path="operations" element={<OperationsPage />} />}
             <Route
               index
