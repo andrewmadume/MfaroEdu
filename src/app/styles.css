@@ -894,6 +894,7 @@ th {
   --brand-cyan: #00c4ef;
   --brand-green: #08ad38;
   --brand-gold: #ffd21a;
+  --brand-header-bg: #6495ed;
 }
 .brand-logo {
   display: block;
@@ -965,10 +966,19 @@ nav a.active {
     margin-top: 12px;
   }
 }
-/* White backing keeps the original MfaroEdu wordmark readable. */
+/* Shared cornflower blue backing for the header and logo areas. */
+.topbar,
+.sidebar > .brand,
+.auth-story > .brand {
+  background: var(--brand-header-bg);
+}
+.sidebar > .brand,
+.auth-story > .brand {
+  border-radius: 12px;
+}
 .brand-logo,
 .welcome-mark img {
-  background: #ffffff;
+  background: var(--brand-header-bg);
   border-radius: 12px;
   padding: 10px;
 }
