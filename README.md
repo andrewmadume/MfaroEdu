@@ -4,7 +4,7 @@ A modular school management application using React, TypeScript, Vite, Tailwind 
 
 ## MfaroEdu branding
 
-The supplied MfaroEdu logo is preserved unchanged in `public/mfaroedu-logo.png` and appears on the authentication screen, sidebar and dashboard. The square SVG app icon embeds the same original artwork with padding. The palette uses royal blue `#0047D6`, cyan `#00C4EF`, green `#08AD38` and gold `#FFD21A`, with dark blue text for contrast. Application titles and PWA metadata use MfaroEdu. Migration `0004_mfaroedu_brand.sql` sets the default colour for new schools without overwriting existing school customisations.
+The supplied MfaroEdu logo is preserved unchanged in `public/mfaroedu-logo.png` and appears on the authentication screen, sidebar and dashboard. The installed app icon uses the separately supplied `MfaroEdu_icon.svg` artwork. Production assets include 192/512 px PNG icons, a safe-zone maskable icon for rounded launchers, a 180 px Apple touch icon, and browser favicon variants. Icon URLs are versioned so updates can be detected; an existing installation may need reinstalling if its operating system retains the old icon. The wordmark used inside the application is unchanged. The palette uses royal blue `#0047D6`, cyan `#00C4EF`, green `#08AD38` and gold `#FFD21A`, with dark blue text for contrast. Application titles and PWA metadata use MfaroEdu. Migration `0004_mfaroedu_brand.sql` sets the default colour for new schools without overwriting existing school customisations.
 
 ## Implemented
 
