@@ -1,3 +1,7 @@
+# Historical Phase 4 design reference
+
+The interrupted draft below is superseded by `../PHASE4.md` and accepted migration `20261028030133_finish_phase4_operations.sql`. Do not deploy the historical schema independently. The completed implementation uses checked workflows and school-level serialization instead of the draft's `btree_gist` occupancy table.
+
 # Phase 4 draft — do not deploy
 
 Phase 4 was interrupted before its database workflows and acceptance tests were completed. Its React pages, service contracts, resource definitions and CSS remain in source for future work. `src/lib/features.ts` disables all Phase 4 routes, navigation and room/time-slot directory URLs.

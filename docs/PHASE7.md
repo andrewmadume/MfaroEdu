@@ -1,6 +1,6 @@
 # Phase 7 — Advanced capabilities · v0.7.0
 
-Implemented 25 October 2026. Phase 4 remains an unavailable draft; attendance statistics and attendance synchronization are not included. Existing hosted Auth, email-delivery and real-user acceptance checks remain separate from these implementation tests.
+Implemented 25 October 2026. Version 0.7.1 completes Phase 4 and adds finalized attendance statistics to Reports & data. Offline synchronization remains restricted to non-personal catalogue metadata. Existing hosted Auth, email-delivery and real-user acceptance checks remain separate from these implementation tests.
 
 ## Reports and analytics
 

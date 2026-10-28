@@ -192,6 +192,22 @@ function AdvancedWorkspace({
                   </article>
                 ))}
               </div>
+              {report.data.attendance && (
+                <article className="panel">
+                  <h2>Attendance in this period</h2>
+                  <p>
+                    {report.data.attendance.present} present / {report.data.attendance.late} late /{' '}
+                    {report.data.attendance.absent} absent / {report.data.attendance.excused}{' '}
+                    excused
+                  </p>
+                  <strong>
+                    {report.data.attendance.percentage === null
+                      ? 'No finalized attendance'
+                      : `${report.data.attendance.percentage}% attended`}
+                  </strong>
+                  <p>{report.data.attendance.total} finalized learner sessions</p>
+                </article>
+              )}
               <article className="panel">
                 <h2>Published academic results</h2>
                 {report.data.academics.length === 0 ? (

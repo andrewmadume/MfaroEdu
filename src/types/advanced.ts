@@ -31,6 +31,7 @@ export interface Analytics {
   }[];
   finance: null | { balance_minor: string; monthly: { month: string; net_minor: string }[] };
   library: null | { open_loans: number; overdue_now: number; issued_in_range: number };
+  attendance?: import('./operations').AttendanceSnapshot;
   limitations: string[];
 }
 export interface CalendarTerm {

@@ -30,7 +30,10 @@ export default function Roadmap() {
           <br />
           Room to grow.
         </h1>
-        <p>Implemented modules are checked locally. Hosted service acceptance remains pending.</p>
+        <p>
+          Phases 1-7 are implemented. Live account and device acceptance remains pending before
+          Phase 8.
+        </p>
       </header>
       <div className="roadmap-list">
         {phases.map(([name, description], i) => (
@@ -39,14 +42,8 @@ export default function Roadmap() {
             <div>
               <div className="section-heading">
                 <h2>{name}</h2>
-                <span className={`badge ${i !== 3 ? 'green' : ''}`}>
-                  {i < 3
-                    ? 'Implemented'
-                    : i === 3
-                      ? 'Draft · verification pending'
-                      : i === 6
-                        ? 'Current release'
-                        : 'Implemented'}
+                <span className="badge green">
+                  {i === 3 ? 'Completed in this release' : 'Implemented'}
                 </span>
               </div>
               <p className="muted">{description}</p>

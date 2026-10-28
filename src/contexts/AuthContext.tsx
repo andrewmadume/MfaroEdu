@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { supabase, authReady } from '../lib/supabase';
 import { clearDrafts } from '../lib/offlineDrafts';
 const Context = createContext<{
   session: Session | null;
@@ -14,18 +14,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState('');
   useEffect(() => {
     if (!supabase) return;
+    const auth = supabase.auth;
     let mounted = true;
-    const { data } = supabase.auth.onAuthStateChange((_event, value) => {
+    let ready = false;
+    const { data } = auth.onAuthStateChange((_event, value) => {
       if (_event === 'SIGNED_OUT') void clearDrafts().catch(() => {});
       if (mounted) {
         setSession(value);
-        setLoading(false);
+        if (_event === 'SIGNED_IN') setError('');
+        if (ready) setLoading(false);
       }
     });
-    supabase.auth
-      .getSession()
+    authReady
+      .then(() => auth.getSession())
       .then(({ data, error }) => {
         if (mounted) {
+          ready = true;
           setSession(data.session);
           setError(error ? 'Unable to restore your session. Please sign in again.' : '');
           setLoading(false);
@@ -33,7 +37,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
       .catch(() => {
         if (mounted) {
-          setError('Unable to connect. Please reload.');
+          ready = true;
+          setSession(null);
+          setError(
+            'This session could not be restored. Request a fresh password link or sign in again.',
+          );
           setLoading(false);
         }
       });

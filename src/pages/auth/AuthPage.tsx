@@ -4,17 +4,18 @@ import { ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { database, configured } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { loginSchema, passwordSchema } from '../../schemas/foundation';
-import { ErrorMessage } from '../../components/ui/Feedback';
+import { ErrorMessage, Loading } from '../../components/ui/Feedback';
 
 export default function AuthPage() {
   const location = useLocation();
-  const { session } = useAuth();
+  const { session, loading, error: sessionError } = useAuth();
   const reset = location.pathname === '/auth/reset';
   const forgot = location.pathname === '/auth/forgot';
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
     [success, setSuccess] = useState('');
-  if (session && !reset) return <Navigate to="/" replace />;
+  if (loading) return <Loading />;
+  if (session && !reset && !forgot) return <Navigate to="/" replace />;
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
@@ -33,12 +34,27 @@ export default function AuthPage() {
           throw new Error('The reset request could not be sent. Please try again later.');
         setSuccess('If an account exists for this email, you will receive a password reset link.');
       } else if (reset) {
+        if (!session)
+          throw new Error('Open a fresh password reset link before setting your password.');
         const parsed = passwordSchema.safeParse(password);
         if (!parsed.success) throw new Error(parsed.error.issues[0].message);
         if (password !== form.get('confirm')) throw new Error('Passwords do not match.');
         const result = await db.auth.updateUser({ password });
-        if (result.error)
-          throw new Error('Password could not be changed. Request a new reset link and try again.');
+        if (result.error) {
+          if (result.error.code === 'same_password')
+            throw new Error('Choose a password different from your current password.');
+          if (result.error.code === 'weak_password')
+            throw new Error(
+              'Choose a stronger password with at least 12 characters, including upper and lower case letters, a number and a symbol.',
+            );
+          if (result.error.code === 'reauthentication_needed')
+            throw new Error(
+              'For your security, request a fresh password reset link and try again.',
+            );
+          throw new Error(
+            'Your password was not saved. Request a fresh password link and open it in the same browser.',
+          );
+        }
         setSuccess('Password updated. You can return to your school.');
       } else {
         const parsed = loginSchema.safeParse({ email, password });
@@ -107,6 +123,17 @@ export default function AuthPage() {
               View development roadmap <ArrowUpRight size={16} />
             </Link>
           </div>
+        ) : reset && (!session || sessionError) ? (
+          <div className="setup-card" role="alert">
+            <h3>Request a fresh password link</h3>
+            <p>
+              {sessionError ||
+                'This page needs a valid email session. Your link may have expired, already been used, or opened in a different browser.'}
+            </p>
+            <Link className="button secondary" to="/auth/forgot">
+              Request password link
+            </Link>
+          </div>
         ) : (
           <form onSubmit={submit} className="stack">
             {!reset && (
@@ -168,6 +195,11 @@ export default function AuthPage() {
             {(forgot || reset) && (
               <Link className="text-link" to={session ? '/' : '/auth/login'}>
                 {session ? 'Return to school' : 'Back to sign in'}
+              </Link>
+            )}
+            {reset && (
+              <Link className="text-link" to="/auth/forgot">
+                Request a new password link
               </Link>
             )}
           </form>

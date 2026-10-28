@@ -1,7 +1,7 @@
 {
   "name": "school-management",
   "private": true,
-  "version": "0.7.0",
+  "version": "0.7.1",
   "type": "module",
   "scripts": {
     "dev": "vite --configLoader native --host 127.0.0.1",
@@ -9,8 +9,8 @@
     "preview": "vite preview --configLoader native --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader native",
-    "test:db": "node scripts/test-database.mjs && node scripts/test-phase2.mjs && node scripts/test-phase3.mjs && node scripts/test-phase5.mjs && node scripts/test-phase6.mjs && node scripts/test-phase7.mjs",
-    "test:e2e": "playwright test",
+    "test:db": "node scripts/test-database.mjs && node scripts/test-phase2.mjs && node scripts/test-phase3.mjs && node scripts/test-phase4.mjs && node scripts/test-phase5.mjs && node scripts/test-phase6.mjs && node scripts/test-phase7.mjs",
+    "test:e2e": "node scripts/run-e2e.mjs",
     "pretest:e2e": "node scripts/prepare-e2e.mjs"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.9.0",
-    "zod": "^4.1.0"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.3.10",
@@ -35,6 +35,6 @@
     "typescript": "^5.9.0",
     "vite": "^7.1.0",
     "vite-plugin-pwa": "^1.0.0",
-    "vitest": "^3.2.0"
+    "vitest": "5.0.5"
   }
 }

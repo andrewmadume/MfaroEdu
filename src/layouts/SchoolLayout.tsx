@@ -167,7 +167,7 @@ export default function SchoolLayout({
           </Link>
           <div className="release-tag">
             <span />
-            Communication & library · v0.6
+            School operations · v0.7.1
           </div>
           <button
             className="signout"

@@ -1,3 +1,11 @@
+# Current completion status — 28 October 2026
+
+Version 0.7.1 completes the Phase 4 implementation and enables its routes after database/browser verification. Phases 1-7 have implemented modules; Phase 8 is explicitly deferred until remaining acceptance work is complete. See `PHASE4.md` and the current entry in `VERIFICATION.md`.
+
+The production Supabase project is healthy and hosting is connected. It currently has no Auth accounts or school workspaces. Real-account Auth, email, authenticated PostgREST/Storage service acceptance and physical iOS/Android installation remain separate acceptance tasks. General document management, holiday event scheduling, billing enforcement, automated external-provider delivery and AI decisions were not part of the seven incremental phase deliverables; they are future scope, not silently marked complete.
+
+The historical entries below document earlier milestones and are superseded where the current status differs.
+
 # Implementation plan
 
 ## Inspection
@@ -25,9 +33,9 @@ Implemented on 10 October 2026 after local Windows execution recovered. Assessme
 
 Version 0.3.1 on 12 October adds audited incomplete-score resets, year-scoped term selectors and persistent save feedback. Migration 0016 extends the existing workflows while preserving report snapshots and access controls.
 
-## Phase 4 — Attendance/timetables (unreleased draft)
+## Phase 4 — Attendance/timetables (completed in v0.7.1)
 
-The interrupted Phase 4 session created UI/service drafts and a schema draft, but no accepted migration or working database workflows. The `phase4Enabled` flag is false: attendance, timetable, room and time-slot routes are unavailable. This phase is not complete. See `drafts/README.md` before resuming it.
+The former disabled draft now has accepted attendance capture/finalization, relationship-scoped reports, room/period CRUD, class/teacher/room timetables, actual-date conflict protection, history guards, audits and tests. See `PHASE4.md`. Hosted real-account/device acceptance remains open.
 
 ## Phase 5 — Finance (implemented)
 
@@ -45,4 +53,4 @@ Version 0.7.0 adds server reports, previewed atomic CSV imports, private paginat
 
 ## Deferred by design
 
-Attendance, timetable, general document management, external messaging providers, OAuth/provider delivery integrations remain deferred. Private Storage attachments are implemented for announcements only. Application data comes from authorized database queries. Hosted Auth/PostgREST/Storage behavior cannot be accepted solely from embedded database and synthetic browser tests.
+General document management, external messaging providers, OAuth/provider delivery integrations remain deferred. Private Storage attachments are implemented for announcements only. Application data comes from authorized database queries. Hosted Auth/PostgREST/Storage behavior cannot be accepted solely from embedded database and synthetic browser tests.

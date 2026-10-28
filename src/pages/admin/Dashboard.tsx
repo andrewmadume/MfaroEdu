@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { attendanceDashboard } from '../../services/operations';
+import { schoolToday } from '../../lib/operations';
 import { schoolCounts } from '../../services/directory';
 import {
   ArrowUpRight,
@@ -48,6 +50,12 @@ export default function Dashboard() {
     queryKey: ['school-counts', school.id],
     queryFn: () => schoolCounts(school.id),
     enabled: can(permissions, 'students.view'),
+  });
+  const today = schoolToday(school.timezone);
+  const attendance = useQuery({
+    queryKey: ['attendance-dashboard', school.id, today],
+    queryFn: () => attendanceDashboard(school.id, today),
+    enabled: can(permissions, 'attendance.view'),
   });
   const wholeSchool = can(permissions, 'students.view_all');
   const roles = access.memberships.filter((m) => m.school_id === school.id).map((m) => m.role_id);
@@ -139,8 +147,15 @@ export default function Dashboard() {
                 <span>Today’s attendance</span>
                 <CalendarDays size={19} />
               </div>
-              <strong>—</strong>
-              <small>Available in Phase 4</small>
+              <strong>
+                {attendance.data?.percentage == null ? '-' : `${attendance.data.percentage}%`}
+              </strong>
+              <small>
+                {attendance.isError
+                  ? 'Could not load attendance'
+                  : `${attendance.data?.total ?? 0} finalized sessions for authorized learners`}
+              </small>
+              {can(permissions, 'attendance.view') && <Link to="/operations">View attendance</Link>}
             </article>
           </div>
           {counts.isError && (
@@ -251,7 +266,8 @@ export default function Dashboard() {
       <div className="foundation-note">
         <ShieldCheck size={17} />
         <p>
-          Phase 3 release. Attendance, timetable and finance modules are planned for later phases.
+          Open the school modules to manage attendance, timetables, academics, finance and
+          communication.
         </p>
       </div>
     </>

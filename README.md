@@ -1,10 +1,10 @@
 # MfaroEdu
 
-A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.7.0** implements Phases 1–3, finance, communication/library and **Phase 7 analytics, data transfer, offline catalogue drafts and platform oversight**. Phase 4 remains a disabled draft. Supabase migrations and Vercel hosting are connected to GitHub; real-user Auth, email and service acceptance checks remain open. See `docs/PHASE7.md` for scope and limits.
+A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.7.1** implements Phases 1-7, including the completed attendance/timetable workflows. Supabase migrations and Vercel hosting are connected to GitHub. Live account, email, Storage service and physical-device acceptance checks remain open; implementation tests do not replace those checks. See `docs/PHASE4.md` for the completed school-day module. Phase 8 has not started.
 
 ## MfaroEdu branding
 
-The supplied MfaroEdu logo is preserved unchanged in `public/mfaroedu-logo.png` and appears on the authentication screen, sidebar and dashboard. The installed app icon uses the separately supplied `MfaroEdu_icon.svg` artwork. Production assets include 192/512 px PNG icons, a safe-zone maskable icon for rounded launchers, a 180 px Apple touch icon, and browser favicon variants. Icon URLs are versioned so updates can be detected; an existing installation may need reinstalling if its operating system retains the old icon. The wordmark used inside the application is unchanged. The palette uses royal blue `#0047D6`, cyan `#00C4EF`, green `#08AD38` and gold `#FFD21A`, with dark blue text for contrast. Application titles and PWA metadata use MfaroEdu. Migration `0004_mfaroedu_brand.sql` sets the default colour for new schools without overwriting existing school customisations.
+The supplied MfaroEdu logo is preserved unchanged in `public/mfaroedu-logo.png` and appears on the authentication screen, sidebar and dashboard. The installed app icon uses the separately supplied `MfaroEdu_icon.svg` artwork. Production assets include 192/512 px PNG icons, a safe-zone maskable icon for rounded launchers, a 180 px Apple touch icon, and browser favicon variants. Icon URLs are versioned so updates can be detected; an existing installation may need reinstalling if its operating system retains the old icon. The wordmark used inside the application is unchanged. The palette uses royal blue `#0047D6`, cyan `#00C4EF`, green `#08AD38` and gold `#FFD21A`, with dark blue text for contrast. Header and in-app logo panels use the requested cornflower blue `#6495ED`. Application titles and PWA metadata use MfaroEdu. Migration `0004_mfaroedu_brand.sql` sets the default colour for new schools without overwriting existing school customisations.
 
 ## Implemented
 
@@ -37,6 +37,10 @@ See `docs/PHASE2.md` for the workflow, permissions and limits.
 - Branded individual and class report cards through **Print / save PDF** using the browser print dialog; annual summaries and subject averages/pass rates.
 
 See `docs/PHASE3.md` for calculation semantics, permissions and remaining service checks.
+
+## Phase 4 attendance and timetables
+
+Historical class registers, atomic mark/save/finalize/reopen/void workflows, family-scoped attendance reports, daily dashboard totals and immutable academic-report attendance snapshots. School-local rooms/periods, class/teacher/room weekly schedules, actual-date overlap protection, assignment/capacity checks and versioned archive/restore. See `docs/PHASE4.md`.
 
 ## Phase 5 finance
 
@@ -118,6 +122,8 @@ Migrations execute in filename order:
 
 21. `20261025125043_phase7_advanced.sql`: checked analytics, private expiring import/export snapshots and provisioned platform oversight. Offline catalogue synchronization uses the existing transactional library workflow.
 
+22. `20261028030133_finish_phase4_operations.sql`: attendance, timetable resources/bookings, history guards, report snapshots, analytics and compatible private implementations for older privileged RPCs.
+
 The `private` schema must **never** be added to Supabase's exposed API schemas. Migrations assume the standard Supabase `auth.users`, `auth.uid()`, `anon`, `authenticated` and `service_role` setup. Keep infrastructure service-role privileges private. Regenerate database TypeScript types with the Supabase CLI when expanding the schema; current service boundaries use explicit domain types.
 
 ## Development data
@@ -169,11 +175,11 @@ Phase 2 schema rule: use `(school_id, entity_id)` composite keys and foreign key
 
 Run `npm run build` and publish `dist/` to your chosen HTTPS static host. Configure SPA rewrites to `/index.html`; do not rewrite asset requests. Use no-cache for `index.html`, `sw.js` and the manifest, and long immutable caching for hashed assets. Configure your host's CSP to allow only your app and exact Supabase HTTPS/WSS origins; set anti-framing and content-type protections. Test password reset using the production origin.
 
-The service worker precaches public application assets only; it never caches Supabase API traffic. On a new version, the user is asked to save their work before reloading. Installation availability varies by browser; the install button appears only when the browser supplies its install event. On iOS, use the browser's Add to Home Screen action. The initial request requires a connection. Reopened authenticated offline screens may show an error because live permissions cannot be checked. Phase 7 supports opt-in offline catalogue drafts with reviewed synchronization. Attendance and its offline workflow still require completion of Phase 4.
+The service worker precaches public application assets only; it never caches Supabase API traffic. On a new version, the user is asked to save their work before reloading. Installation availability varies by browser; the install button appears only when the browser supplies its install event. On iOS, use the browser's Add to Home Screen action. The initial request requires a connection. Reopened authenticated offline screens may show an error because live permissions cannot be checked. Phase 7 supports opt-in offline catalogue drafts with reviewed synchronization. Attendance requires connectivity and does not store learner drafts offline.
 
 ## Development plan
 
-See `docs/PLAN.md`, `docs/PHASE2.md` and `docs/PHASE3.md`. Phases 2 and 3 were implemented at the user’s request while the Supabase integration gate remains open. Do not introduce real school data until hosted authentication, PostgREST and security acceptance checks are complete. This is **not yet a commercially launch-ready complete school management system**.
+See `docs/PLAN.md` and the per-phase guides, including `docs/PHASE4.md`. Phases 2 and 3 were implemented at the user’s request while the Supabase integration gate remains open. Do not introduce real school data until hosted authentication, PostgREST and security acceptance checks are complete. This is **not yet a commercially launch-ready complete school management system**.
 
 ## References
 

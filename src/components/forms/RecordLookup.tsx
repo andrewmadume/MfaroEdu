@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSchool } from '../../contexts/SchoolContext';
-import { lookupRecords, getRecord } from '../../services/directory';
+import { lookupRecords, getRecord, getTimetableTeacher } from '../../services/directory';
 import { recordLabel } from '../../lib/directory';
 import { useDebounced } from '../../hooks/useDebounced';
 import type { EntityKey } from '../../types/directory';
@@ -30,8 +30,11 @@ export default function RecordLookup({
     enabled: !disabled,
   });
   const chosen = useQuery({
-    queryKey: ['record', school.id, entity, value],
-    queryFn: () => getRecord(school.id, entity, value),
+    queryKey: ['record', school.id, entity, value, filters],
+    queryFn: () =>
+      filters.timetable
+        ? getTimetableTeacher(school.id, value)
+        : getRecord(school.id, entity, value),
     enabled: !!value,
   });
   return (

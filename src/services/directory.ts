@@ -34,6 +34,10 @@ const messages = new Set([
   'Class is at capacity',
   'Enrollment changed; reload before closing',
   'Relationship identity is immutable',
+  'Archive linked schedules before changing this resource',
+  'Enrollment dates must preserve captured attendance',
+  'Reopen affected registers before changing enrollment',
+  'Year dates must preserve captured attendance',
 ]);
 export function operationError(error: { code?: string; message?: string } | null): Error {
   if (error?.message && messages.has(error.message)) return new Error(`${error.message}.`);
@@ -96,6 +100,15 @@ export async function getRecord(tenant: string, entity: EntityKey, id: string) {
   return data as unknown as SchoolRecord;
 }
 export async function lookupRecords(tenant: string, entity: EntityKey, options: ListOptions) {
+  if (entity === 'staff' && options.filters?.timetable) {
+    const { data, error } = await database().rpc('timetable_teachers', {
+      tenant,
+      search_term: options.search ?? '',
+      page_number: options.page ?? 0,
+    });
+    if (error) throw new Error('Could not load timetable teachers.');
+    return { rows: data.rows as SchoolRecord[], count: Number(data.count) };
+  }
   if (entity !== 'class_subjects') return listRecords(tenant, entity, options);
   const { data, error } = await database().rpc(
     options.filters?.markable ? 'search_markable_subjects' : 'search_class_subjects',
@@ -107,6 +120,14 @@ export async function lookupRecords(tenant: string, entity: EntityKey, options: 
   );
   if (error) throw new Error('Could not load class subjects.');
   return { rows: data as SchoolRecord[], count: Number(data?.[0]?.total ?? 0) };
+}
+export async function getTimetableTeacher(tenant: string, id: string) {
+  const { data, error } = await database().rpc('operations_read', {
+    tenant,
+    request: { op: 'teachers', resource_key: id },
+  });
+  if (error || !data.rows[0]) throw new Error('This timetable teacher is not available.');
+  return data.rows[0] as SchoolRecord;
 }
 export async function saveRecord(
   tenant: string,

@@ -84,7 +84,7 @@ export interface ReportDocument {
   pass_percent: number;
   principal_comment: string;
   promotion_status: string;
-  attendance: null;
+  attendance: import('./operations').AttendanceSnapshot | null;
   annual?: boolean;
 }
 export interface PublishedReport {
