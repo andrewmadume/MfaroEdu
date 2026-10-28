@@ -36,7 +36,7 @@ The old `docs/drafts/phase4-schema.sql` remains a historical design reference. I
 
 ## Acceptance boundaries
 
-Embedded PostgreSQL tests exercise actual schema, grants/RLS, permissions, history guards, publication snapshots and transaction rollback. Browser tests use synthetic protocol fixtures on desktop/mobile. Hosted migration status, anonymous Data API rejection and security advisors are checked separately after deployment. Real-user sign-in, confirmation/reset email, token refresh, actual Storage HTTP uploads/downloads and physical-device PWA installation still need real accounts/devices. Attendance entry requires connectivity; no learner attendance is persisted offline. Existing Phase 7 offline catalogue drafts remain available.
+Embedded PostgreSQL tests exercise actual schema, grants/RLS, permissions, history guards, publication snapshots and transaction rollback. Browser tests use synthetic protocol fixtures on desktop/mobile. Hosted migration status, anonymous Data API rejection and security advisors are checked separately after deployment. The first account's confirmation/recovery email and password update are verified live. Fresh-password sign-in, token refresh/logout, additional role/tenant API checks, actual Storage HTTP uploads/downloads and physical-device PWA installation still need acceptance. Attendance entry requires connectivity; no learner attendance is persisted offline. Existing Phase 7 offline catalogue drafts remain available.
 
 ## Foundation callback completion in this release
 
