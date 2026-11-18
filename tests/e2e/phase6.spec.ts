@@ -479,6 +479,7 @@ test('teacher announcement form is limited to assigned class audiences', async (
   await dialog.getByLabel('Announcement text').fill('Please bring your reading record.');
   await dialog.getByRole('combobox', { name: 'Class', exact: true }).selectOption(id(2));
   await dialog.getByRole('button', { name: 'Save draft', exact: true }).click();
+  await expect(dialog).toBeHidden();
   expect(f.calls.at(-1).scope).toBe('CLASS');
   expect(f.calls.at(-1).class_id).toBe(id(2));
 });

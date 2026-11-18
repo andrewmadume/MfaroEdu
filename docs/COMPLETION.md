@@ -52,6 +52,8 @@ Upload is reserve → upload without overwrite → verify stored size/type → f
 
 Migration `20261118140849_complete_school_workflows.sql` follows the existing 22 migrations; `20261118150417_invitation_account_receipts.sql` adds the manager-only accepted-account receipt. It adds school events, private document metadata/Storage policies, private invitations, bounded data tools and branding columns. New public tables have RLS and no direct client writes. Public RPCs are SECURITY INVOKER; private implementations use a fixed search path and fresh authorization. Production seeds are never deployed.
 
+Migration `20261118175559_tune_access_policy_queries.sql` brings the total to 25. It evaluates session identity once per statement in four existing read policies and adds 33 covering foreign-key indexes identified by hosted advisors. Policy predicates, roles and grants remain unchanged. Index creation has short lock/statement timeouts. Low-traffic unused-index INFO findings are retained for later measurement rather than removing protective indexes.
+
 CI runs TypeScript, unit tests, all database suites, desktop/mobile browser workflows, production dependency/security-mitigation checks and the production/PWA build. `/release.json` exposes only version, commit and build time for release identification; it is not a database-health claim.
 
 Before declaring school rollout acceptance complete, verify real account sign-in/out/refresh, multiple roles and schools over PostgREST, real Storage bytes/revocation/concurrency, production email delivery, backup/restore and physical Android/iOS install/update. See `OPERATIONS.md`. Synthetic browser fixtures and embedded PostgreSQL cannot establish these external checks. Phase 8 remains on hold until those gates are accepted.

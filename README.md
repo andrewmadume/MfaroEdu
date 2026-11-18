@@ -2,11 +2,11 @@
 
 This release addresses the November inspection and completes the identified missing code workflows before Phase 8. It adds school invitations, an audience-scoped events calendar, private learner/staff/school documents, teacher/subject imports, additional exports and school/report branding. It fixes cross-account query/editor isolation and the attendance dashboard label.
 
-Read [completion behavior and security mitigation](docs/COMPLETION.md) and the [production acceptance runbook](docs/OPERATIONS.md). There are 24 ordered database migrations. Current production/service acceptance is recorded in [VERIFICATION.md](docs/VERIFICATION.md); implementation tests do not replace physical-device or live Storage/Auth checks.
+Read [completion behavior and security mitigation](docs/COMPLETION.md) and the [production acceptance runbook](docs/OPERATIONS.md). There are 25 ordered database migrations. Current production/service acceptance is recorded in [VERIFICATION.md](docs/VERIFICATION.md); implementation tests do not replace physical-device or live Storage/Auth checks.
 
 # MfaroEdu
 
-A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.7.1** implements Phases 1-7, including the completed attendance/timetable workflows. Supabase migrations and Vercel hosting are connected to GitHub. Live account, email, Storage service and physical-device acceptance checks remain open; implementation tests do not replace those checks. See `docs/PHASE4.md` for the completed school-day module. Phase 8 has not started.
+A modular school management application using React, TypeScript, Vite, Tailwind CSS and Supabase. Version **0.7.2** implements Phases 1-7, including the completed attendance/timetable workflows. Supabase migrations and Vercel hosting are connected to GitHub. Live account, email, Storage service and physical-device acceptance checks remain open; implementation tests do not replace those checks. See `docs/PHASE4.md` for the completed school-day module. Phase 8 has not started.
 
 ## MfaroEdu branding
 
@@ -101,7 +101,7 @@ supabase db reset
 
 The checked-in `supabase/config.toml` enables email verification and includes local reset redirects. Match its site URL and redirect allowlist to the exact development origin you use. Set the environment variables to the values from your local instance.
 
-For a hosted project, link the project with `supabase link --project-ref YOUR_PROJECT_REF`, inspect pending migrations, then run `supabase db push`. Do not run `db reset` on a production database. In Auth settings, configure the production Site URL, the exact `/auth/reset` redirect URL, SMTP, password policy, verification and rate limits. Create/invite the first account through a trusted administrator workflow, verify its email, sign in and create the school. This initial release does not offer public signup or an invitation UI.
+For a hosted project, link the project with `supabase link --project-ref YOUR_PROJECT_REF`, inspect pending migrations, then run `supabase db push`. Do not run `db reset` on a production database. In Auth settings, configure the production Site URL, the exact `/auth/reset` redirect URL, SMTP, password policy, verification and rate limits. Create/invite the first account through a trusted administrator workflow, verify its email, sign in and create the school. School administrators can now create email-bound invitation links through School settings. Invited people can create and verify their own account, preview the school/role and explicitly accept; directory profiles are linked separately. Configure production SMTP before general email rollout.
 
 Migrations execute in filename order:
 
