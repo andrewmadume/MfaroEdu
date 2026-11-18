@@ -35,6 +35,13 @@ export default function SchoolLayout({
     new Map(access.memberships.map((m) => [m.school_id, m.schools])).values(),
   );
   const nav = [
+    { path: '/calendar', title: 'School calendar', icon: CalendarDays, permission: 'events.view' },
+    {
+      path: '/documents',
+      title: 'Private documents',
+      icon: ClipboardList,
+      permission: 'documents.view',
+    },
     ...(access.platformAdmin
       ? [
           {
@@ -101,7 +108,7 @@ export default function SchoolLayout({
     { path: '/audit', title: 'Audit trail', icon: ClipboardList, permission: 'audit.view' },
   ];
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ borderTop: `4px solid ${school.brand_color}` }}>
       <a href="#main" className="skip-link">
         Skip to content
       </a>
@@ -116,8 +123,8 @@ export default function SchoolLayout({
         <Link className="brand" to="/">
           <img
             className="brand-logo"
-            src="/mfaroedu-logo.png"
-            alt="MfaroEdu"
+            src={school.logo_data || '/mfaroedu-logo.png'}
+            alt={school.logo_data ? school.name : 'MfaroEdu'}
             width="192"
             height="128"
           />
@@ -167,7 +174,7 @@ export default function SchoolLayout({
           </Link>
           <div className="release-tag">
             <span />
-            School operations · v0.7.1
+            School operations · v0.7.2
           </div>
           <button
             className="signout"

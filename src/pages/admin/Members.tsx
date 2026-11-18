@@ -4,6 +4,7 @@ import { database } from '../../lib/supabase';
 import { useSchool } from '../../contexts/SchoolContext';
 import { roleLabels, can } from '../../lib/permissions';
 import { ErrorMessage, Loading } from '../../components/ui/Feedback';
+import Invitations from './Invitations';
 export default function Members() {
   const { school, permissions } = useSchool();
   const [page, setPage] = useState(0),
@@ -104,12 +105,13 @@ export default function Members() {
           </div>
         </section>
       )}
+      <Invitations />
       {can(permissions, 'members.manage') && (
         <form className="panel stack" onSubmit={submit}>
           <h2>Assign or update a role</h2>
           <p className="muted">
-            Use an existing account ID from your identity administrator. Creating and inviting
-            accounts through this screen is planned for the next phase.
+            Use an existing account ID, or create an invitation above for someone joining your
+            school.
           </p>
           <div className="form-grid">
             <label>

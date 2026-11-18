@@ -1,7 +1,7 @@
 {
   "name": "school-management",
   "private": true,
-  "version": "0.7.1",
+  "version": "0.7.2",
   "type": "module",
   "scripts": {
     "dev": "vite --configLoader native --host 127.0.0.1",
@@ -9,12 +9,16 @@
     "preview": "vite preview --configLoader native --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader native",
-    "test:db": "node scripts/test-database.mjs && node scripts/test-phase2.mjs && node scripts/test-phase3.mjs && node scripts/test-phase4.mjs && node scripts/test-phase5.mjs && node scripts/test-phase6.mjs && node scripts/test-phase7.mjs",
+    "test:db": "node scripts/test-database.mjs && node scripts/test-phase2.mjs && node scripts/test-phase3.mjs && node scripts/test-phase4.mjs && node scripts/test-phase5.mjs && node scripts/test-phase6.mjs && node scripts/test-phase7.mjs && node scripts/test-school-completion.mjs",
     "test:e2e": "node scripts/run-e2e.mjs",
-    "pretest:e2e": "node scripts/prepare-e2e.mjs"
+    "pretest:e2e": "node scripts/prepare-e2e.mjs",
+    "postinstall": "node scripts/guard-build-globs.mjs",
+    "security:check": "node scripts/guard-build-globs.mjs && node scripts/check-build-security.mjs && npm audit --omit=dev",
+    "prebuild": "node scripts/guard-build-globs.mjs",
+    "predev": "node scripts/guard-build-globs.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.0",
+    "@supabase/supabase-js": "2.117.2",
     "@tanstack/react-query": "^5.90.0",
     "lucide-react": "^0.468.0",
     "react": "^19.1.0",
@@ -36,5 +40,9 @@
     "vite": "^7.1.0",
     "vite-plugin-pwa": "^1.0.0",
     "vitest": "5.0.5"
+  },
+  "overrides": {
+    "minimatch": "11.0.9",
+    "glob": "14.0.6"
   }
 }

@@ -31,8 +31,8 @@ export default function Roadmap() {
           Room to grow.
         </h1>
         <p>
-          Phases 1-7 are implemented. Live account and device acceptance remains pending before
-          Phase 8.
+          Phases 1-7 are implemented. The completion release adds invitations, events, documents and
+          expanded data tools. Remaining service and device acceptance is required before Phase 8.
         </p>
       </header>
       <div className="roadmap-list">
@@ -42,9 +42,7 @@ export default function Roadmap() {
             <div>
               <div className="section-heading">
                 <h2>{name}</h2>
-                <span className="badge green">
-                  {i === 3 ? 'Completed in this release' : 'Implemented'}
-                </span>
+                <span className="badge green">Implemented</span>
               </div>
               <p className="muted">{description}</p>
             </div>

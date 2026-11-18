@@ -153,7 +153,7 @@ export default function Dashboard() {
               <small>
                 {attendance.isError
                   ? 'Could not load attendance'
-                  : `${attendance.data?.total ?? 0} finalized sessions for authorized learners`}
+                  : `${attendance.data?.total ?? 0} finalized learner attendance records`}
               </small>
               {can(permissions, 'attendance.view') && <Link to="/operations">View attendance</Link>}
             </article>

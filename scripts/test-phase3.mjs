@@ -319,7 +319,16 @@ try {
     'Keep up the effort',
     'Progressing',
   ]);
+  await db.query(
+    "update public.schools set website='https://school.example',report_title='Learner progress',report_layout='COMPACT',version=version+1 where id=$1",
+    [tenant],
+  );
   let docs = await rpc('preview_term_results', [tenant, klass.id, term1.id]);
+  await check('report previews snapshot school website and configured report format', async () => {
+    assert.equal(docs[0].school_website, 'https://school.example');
+    assert.equal(docs[0].report_title, 'Learner progress');
+    assert.equal(docs[0].report_layout, 'COMPACT');
+  });
   await check('normalized assessment and subject weights produce correct results', async () => {
     const d = docs.find((d) => d.student_id === learner.id);
     assert.equal(d.subjects.find((s) => s.code === 'MATH').percent, 80);
@@ -406,16 +415,22 @@ try {
     JSON.stringify([{ min: 0, label: 'Revised' }]),
     rules.id,
   ]);
-  await check('published snapshot survives changes to draft marks and grading rules', async () =>
-    assert.deepEqual(
-      (
-        await db.query(
-          'select document from public.published_reports where publication_id=$1 and student_id=$2',
-          [publication, learner.id],
-        )
-      ).rows[0].document,
-      before,
-    ),
+  await db.query(
+    "update public.schools set report_title='Changed title',report_layout='STANDARD',version=version+1 where id=$1",
+    [tenant],
+  );
+  await check(
+    'published snapshot survives changes to draft marks, grading rules and school branding',
+    async () =>
+      assert.deepEqual(
+        (
+          await db.query(
+            'select document from public.published_reports where publication_id=$1 and student_id=$2',
+            [publication, learner.id],
+          )
+        ).rows[0].document,
+        before,
+      ),
   );
   await as('parent');
   await check('annual report blocked until every weighted term is published', () =>

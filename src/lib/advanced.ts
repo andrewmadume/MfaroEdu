@@ -7,7 +7,10 @@ export const importColumns = [
   'admission_date',
 ] as const;
 /** Bounded RFC 4180 parser: quoted newlines, escaped quotes and CRLF are supported. */
-export function parseLearnersCsv(source: string): ImportRow[] {
+export function parseLearnersCsv(
+  source: string,
+  columns: readonly string[] = importColumns,
+): ImportRow[] {
   if (new TextEncoder().encode(source).length > 300000)
     throw new Error('Use a CSV file smaller than 300 KB.');
   const text = source.replace(/^\uFEFF/, '');
@@ -58,14 +61,21 @@ export function parseLearnersCsv(source: string): ImportRow[] {
   const header = rows.shift()?.map((v) => v.trim());
   if (
     !header ||
-    header.length !== 5 ||
-    new Set(header).size !== 5 ||
-    importColumns.some((c) => !header.includes(c))
+    header.length !== columns.length ||
+    new Set(header).size !== columns.length ||
+    columns.some((c) => !header.includes(c))
   )
-    throw new Error('Use exactly the five template column names.');
+    throw new Error(
+      columns === importColumns
+        ? 'Use exactly the five template column names.'
+        : 'Use exactly the selected template column names.',
+    );
   if (!rows.length) throw new Error('Add at least one learner.');
   return rows.map((values, i) => {
-    if (values.length !== 5) throw new Error(`Row ${i + 2} must have five columns.`);
+    if (values.length !== columns.length)
+      throw new Error(
+        `Row ${i + 2} must have ${columns === importColumns ? 'five' : columns.length} columns.`,
+      );
     return Object.fromEntries(header.map((h, n) => [h, values[n].trim()])) as unknown as ImportRow;
   });
 }
@@ -84,7 +94,15 @@ export function safeCsv(rows: Record<string, unknown>[], columns: readonly strin
     '\r\n'
   );
 }
-export function calendarIcs(terms: CalendarTerm[], now = new Date()) {
+export function calendarIcs(
+  terms: (CalendarTerm & {
+    starts_at?: string;
+    ends_at?: string;
+    all_day?: boolean;
+    description?: string;
+  })[],
+  now = new Date(),
+) {
   const esc = (s: string) =>
     s
       .replace(/\\/g, '\\\\')
@@ -111,9 +129,20 @@ export function calendarIcs(terms: CalendarTerm[], now = new Date()) {
       `UID:${t.id}@mfaroedu`,
       `DTSTAMP:${stamp}`,
       `SEQUENCE:${t.version}`,
-      `DTSTART;VALUE=DATE:${day(t.starts_on)}`,
-      `DTEND;VALUE=DATE:${day(next(t.ends_on))}`,
+      t.starts_at && !t.all_day
+        ? `DTSTART:${new Date(t.starts_at)
+            .toISOString()
+            .replace(/[-:]/g, '')
+            .replace(/\.\d{3}/, '')}`
+        : `DTSTART;VALUE=DATE:${day(t.starts_on)}`,
+      t.ends_at && !t.all_day
+        ? `DTEND:${new Date(t.ends_at)
+            .toISOString()
+            .replace(/[-:]/g, '')
+            .replace(/\.\d{3}/, '')}`
+        : `DTEND;VALUE=DATE:${day(t.ends_at ? t.ends_on : next(t.ends_on))}`,
       `SUMMARY:${esc(t.name)}`,
+      `DESCRIPTION:${esc(t.description ?? '')}`,
       'END:VEVENT',
     );
   lines.push('END:VCALENDAR');

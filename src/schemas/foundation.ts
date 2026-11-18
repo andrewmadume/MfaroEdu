@@ -24,4 +24,16 @@ export const schoolSchema = z.object({
   }, 'Enter a valid time zone.'),
   currency: z.string().regex(/^[A-Z]{3}$/, 'Use a three-letter currency code.'),
   brand_color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+  website: z.union([z.literal(''), z.url().startsWith('https://').max(254)]).default(''),
+  logo_data: z
+    .string()
+    .max(280000)
+    .refine(
+      (v) => v === '' || /^data:image\/(png|jpeg);base64,[A-Za-z0-9+/=]+$/.test(v),
+      'Use a PNG or JPEG school logo.',
+    )
+    .default(''),
+  report_title: z.string().trim().min(1).max(100).default('Academic report card'),
+  report_footer: z.string().max(500).default('Empowering Schools. Inspiring Futures.'),
+  report_layout: z.enum(['STANDARD', 'COMPACT']).default('STANDARD'),
 });

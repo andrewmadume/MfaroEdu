@@ -27,6 +27,8 @@ const LibraryPage = lazy(() => import('../pages/library/LibraryPage'));
 const AdvancedPage = lazy(() => import('../pages/admin/AdvancedPage'));
 const OfflinePage = lazy(() => import('../pages/library/OfflinePage'));
 const PlatformPage = lazy(() => import('../pages/admin/PlatformPage'));
+const SchoolResources = lazy(() => import('../pages/admin/SchoolResources'));
+const JoinSchool = lazy(() => import('../pages/auth/JoinSchool'));
 function RequirePermission({ permission, children }: { permission: string; children: ReactNode }) {
   const { permissions } = useSchool();
   return can(permissions, permission) ? (
@@ -58,6 +60,7 @@ function Workspace() {
   }, [session?.user.id, client]);
   if (loading) return <Loading />;
   if (!configured || !session) return <Navigate to="/auth/login" replace />;
+  if (sessionStorage.getItem('mfaroedu-pending-invitation')) return <Navigate to="/join" replace />;
   if (access.isPending) return <Loading />;
   if (access.isError)
     return (
@@ -122,7 +125,10 @@ export default function App() {
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/offline" element={<OfflinePage />} />
           <Route path="/platform" element={<PlatformPage />} />
+          <Route path="/join" element={<JoinSchool />} />
           <Route element={<Workspace />}>
+            <Route path="calendar" element={<SchoolResources module="events" />} />
+            <Route path="documents" element={<SchoolResources module="documents" />} />
             <Route path="records/:entity" element={<DirectoryPage />} />
             <Route path="academics" element={<AcademicsPage />} />
             <Route path="finance" element={<FinancePage />} />

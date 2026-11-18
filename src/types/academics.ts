@@ -73,6 +73,11 @@ export interface ReportDocument {
   school_name: string;
   school_address: string | null;
   school_color: string;
+  school_logo?: string;
+  school_website?: string;
+  report_title?: string;
+  report_footer?: string;
+  report_layout?: 'STANDARD' | 'COMPACT';
   class_name: string;
   grade_name: string;
   year_name: string;

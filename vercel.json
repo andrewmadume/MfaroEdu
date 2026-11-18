@@ -18,6 +18,10 @@
       ]
     },
     {
+      "source": "/release.json",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    },
+    {
       "source": "/manifest.webmanifest",
       "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
     },

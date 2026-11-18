@@ -12,15 +12,21 @@ export default function ReportCard({
   return (
     <article className="report-card" style={{ borderTopColor: d.school_color }}>
       <header className="report-header">
-        <img src="/mfaroedu-logo.png" alt="MfaroEdu" width={150} height={100} />
+        <img
+          src={d.school_logo || '/mfaroedu-logo.png'}
+          alt={d.school_logo ? d.school_name : 'MfaroEdu'}
+          width={150}
+          height={100}
+        />
 
         <div>
           <h2>{d.school_name}</h2>
 
           {d.school_address && <p>{d.school_address}</p>}
+          {d.school_website && <p>{d.school_website}</p>}
 
           <h3>
-            {d.annual ? 'Annual academic summary' : 'Academic report card'}{' '}
+            {d.annual ? 'Annual academic summary' : d.report_title || 'Academic report card'}{' '}
             {draft && <span className="badge">DRAFT · NOT PUBLISHED</span>}
           </h3>
         </div>
@@ -94,7 +100,7 @@ export default function ReportCard({
         <section className="report-subject" key={s.id}>
           <h4>{s.name}</h4>
 
-          {s.assessments.length > 0 && (
+          {d.report_layout !== 'COMPACT' && s.assessments.length > 0 && (
             <p>
               {s.assessments
 
@@ -144,7 +150,7 @@ export default function ReportCard({
           </p>
         )}
 
-        <span>MfaroEdu · Empowering Schools. Inspiring Futures.</span>
+        <span>MfaroEdu · {d.report_footer ?? 'Empowering Schools. Inspiring Futures.'}</span>
       </footer>
     </article>
   );

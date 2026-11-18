@@ -20,3 +20,7 @@ This deployment connection does not publish the frontend or configure its enviro
 Migration `20261028030133_finish_phase4_operations.sql` finishes attendance/timetable workflows and preserves existing API signatures while moving privileged public function bodies into `private`. Existing published academic documents remain immutable. No seeds or Auth accounts are deployed.
 
 Vercel's CSP connect-src is pinned to the production project's HTTPS/WSS origins. Update it along with public client configuration when deploying against a different project. Before introducing school data, complete real-account Auth/Storage acceptance and backup/restore procedures. Invite the first administrator from the Supabase Authentication Users dashboard, let that person set their own password, then sign in and create the first school through the application. Do not put passwords, invitation links or Auth tokens in Git.
+
+## v0.7.2 completion release
+
+Apply `20261118140849_complete_school_workflows.sql` after the existing 22 migrations. It adds the private `mfaroedu-documents` bucket, school event/document tables with RLS, private email-bound invitations, additional import/export jobs and branding columns. Keep both Storage buckets private and `private` unexposed. The frontend and database must be verified together before accepting the release. See `docs/OPERATIONS.md` for SMTP, real-role/Storage, physical PWA and backup/restore acceptance. `/release.json` identifies the frontend version/commit and is not a live database health endpoint.

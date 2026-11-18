@@ -1,3 +1,7 @@
+# Current status — v0.7.2
+
+The phase implementation below is a historical release record. Phase 4 is now enabled, Supabase migrations and Vercel hosting were deployed in later releases, and the first account/school setup was accepted. Version 0.7.2 fixes account cache isolation on every route and adds general private documents; see `COMPLETION.md`. Current hosted-service and physical-device acceptance is tracked in `VERIFICATION.md` and `OPERATIONS.md`.
+
 # Phase 6 — Communication and library · v0.6.0
 
 Implemented locally on 24 October 2026. Phase 4 remains a disabled draft. No real school data, live messages, hosted uploads or migrations were sent during development.

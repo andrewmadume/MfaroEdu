@@ -49,6 +49,7 @@
   min-height: 160px;
 }
 .record-modal {
+  margin: auto;
   border: 1px solid #c7d9ee;
   border-radius: 16px;
   padding: 28px;

@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { readFileSync } from 'node:fs';
+const packageInfo = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 export default defineConfig({
   build: {
@@ -16,6 +18,20 @@ export default defineConfig({
     },
   },
   plugins: [
+    {
+      name: 'release-info',
+      generateBundle() {
+        this.emitFile({
+          type: 'asset',
+          fileName: 'release.json',
+          source: JSON.stringify({
+            version: packageInfo.version,
+            commit: process.env.VERCEL_GIT_COMMIT_SHA ?? 'local',
+            built_at: new Date().toISOString(),
+          }),
+        });
+      },
+    },
     react(),
     tailwindcss(),
     VitePWA({

@@ -13,6 +13,7 @@ export default function SchoolForm({
   // Keep the version the form was opened against, even if background queries refresh.
   // Otherwise stale input could overwrite a concurrent edit using its newer version.
   const [baseline, setBaseline] = useState(school);
+  const [logo, setLogo] = useState(school?.logo_data ?? '');
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
     [success, setSuccess] = useState('');
@@ -27,6 +28,7 @@ export default function SchoolForm({
       address: '',
       brand_color: '#0047d6',
       ...values,
+      logo_data: logo,
     });
     if (!parsed.success) {
       setError(parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join(' '));
@@ -92,6 +94,82 @@ export default function SchoolForm({
         </label>
         {school && (
           <>
+            <label>
+              School website
+              <input
+                name="website"
+                type="url"
+                maxLength={254}
+                placeholder="https://school.example"
+                defaultValue={school.website ?? ''}
+              />
+            </label>
+            <label>
+              School logo (PNG or JPEG, up to 200 KB)
+              <input
+                type="file"
+                accept="image/png,image/jpeg"
+                disabled={busy}
+                onChange={async (e) => {
+                  const f = e.target.files?.[0];
+                  if (!f) return;
+                  if (!['image/png', 'image/jpeg'].includes(f.type) || f.size > 200000) {
+                    setError('Choose a PNG or JPEG logo up to 200 KB.');
+                    return;
+                  }
+                  try {
+                    const data = await new Promise<string>((resolve, reject) => {
+                      const reader = new FileReader();
+                      reader.onload = () => resolve(String(reader.result));
+                      reader.onerror = () => reject(Error('Logo could not be read.'));
+                      reader.readAsDataURL(f);
+                    });
+                    await new Promise<void>((resolve, reject) => {
+                      const img = new Image();
+                      img.onload = () => resolve();
+                      img.onerror = () => reject(Error('This logo is not a readable image.'));
+                      img.src = data;
+                    });
+                    setLogo(data);
+                    setError('');
+                  } catch (e) {
+                    setError(e instanceof Error ? e.message : 'Logo could not be loaded.');
+                  }
+                }}
+              />
+            </label>
+            {logo && (
+              <div>
+                <img src={logo} alt="School logo preview" width={150} />
+                <button type="button" className="secondary" onClick={() => setLogo('')}>
+                  Remove school logo
+                </button>
+              </div>
+            )}
+            <label>
+              Report title
+              <input
+                name="report_title"
+                required
+                maxLength={100}
+                defaultValue={school.report_title ?? 'Academic report card'}
+              />
+            </label>
+            <label>
+              Report footer
+              <textarea
+                name="report_footer"
+                maxLength={500}
+                defaultValue={school.report_footer ?? 'Empowering Schools. Inspiring Futures.'}
+              />
+            </label>
+            <label>
+              Report format
+              <select name="report_layout" defaultValue={school.report_layout ?? 'STANDARD'}>
+                <option value="STANDARD">Standard, with assessment details</option>
+                <option value="COMPACT">Compact subject summary</option>
+              </select>
+            </label>
             <label>
               Contact email
               <input name="contact_email" type="email" defaultValue={school.contact_email ?? ''} />

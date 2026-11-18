@@ -13,6 +13,7 @@ import {
 import type { Analytics, CalendarTerm, DataJob, ImportRow } from '../../types/advanced';
 import { ErrorMessage, Loading } from '../../components/ui/Feedback';
 import '../../app/advanced.css';
+import DirectoryTransfers from './DirectoryTransfers';
 export default function AdvancedPage() {
   const { school, permissions } = useSchool();
   return (
@@ -307,6 +308,7 @@ function AdvancedWorkspace({
         ))}
       {current === 'Import' && (
         <section className="panel">
+          <DirectoryTransfers mode="import" />
           <h2>Import learners</h2>
           <p>
             Insert new learner profiles in one transaction. Up to 500 rows / 300 KB. Existing
@@ -432,6 +434,7 @@ function AdvancedWorkspace({
       )}
       {current === 'Export' && (
         <section className="panel">
+          <DirectoryTransfers mode="export" />
           <h2>Export learners</h2>
           <p>
             Download a consistent snapshot of up to 10,000 current and archived learners. Exports

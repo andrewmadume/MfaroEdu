@@ -1,3 +1,7 @@
+# Completion update — v0.7.2
+
+Teacher and subject import previews/atomic commits, exports for attendance/results/fees/library/staff/subjects, school events, general documents and school/report branding are implemented in this completion release. The original learner jobs, reporting and offline behavior described below remain supported. See `COMPLETION.md` for additions and `OPERATIONS.md` for external acceptance gates. Phase 8 remains on hold.
+
 # Phase 7 — Advanced capabilities · v0.7.0
 
 Implemented 25 October 2026. Version 0.7.1 completes Phase 4 and adds finalized attendance statistics to Reports & data. Offline synchronization remains restricted to non-personal catalogue metadata. Existing hosted Auth, email-delivery and real-user acceptance checks remain separate from these implementation tests.

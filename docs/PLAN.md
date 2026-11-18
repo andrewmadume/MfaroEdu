@@ -1,10 +1,10 @@
-# Current completion status — 28 October 2026
+# Current completion status — 18 November 2026
 
-Version 0.7.1 completes the Phase 4 implementation and enables its routes after database/browser verification. Phases 1-7 have implemented modules; Phase 8 is explicitly deferred until remaining acceptance work is complete. See `PHASE4.md` and the current entry in `VERIFICATION.md`.
+Version 0.7.2 addresses the inspection findings before Phase 8: global account/cache isolation, accurate attendance labels, private school invitations, role/class events, private learner/staff/school documents, teacher/subject imports, additional module exports and school/report branding. See `COMPLETION.md` for exact behavior and `OPERATIONS.md` for remaining real-service/device acceptance.
 
-The production Supabase project is healthy and hosting is connected. It currently has no Auth accounts or school workspaces. Real-account Auth, email, authenticated PostgREST/Storage service acceptance and physical iOS/Android installation remain separate acceptance tasks. General document management, holiday event scheduling, billing enforcement, automated external-provider delivery and AI decisions were not part of the seven incremental phase deliverables; they are future scope, not silently marked complete.
+The first account, email/password setup, school creation and dashboard were accepted previously. The older statements below about no accounts, disabled Phase 4 or missing hosting are historical. Phases 1–7 have implemented modules; Phase 8 is not started. External delivery providers, online payments and AI decisions remain future extensions as specified in the original brief. General documents and school events are now implemented, not deferred.
 
-The historical entries below document earlier milestones and are superseded where the current status differs.
+The current dependency mitigation and unresolved upstream advisory are documented in `COMPLETION.md`; do not describe the full development audit as clear. Hosted migration/advisor, SMTP, real-role/Storage, physical-device and backup/restore acceptance must be verified separately.
 
 # Implementation plan
 

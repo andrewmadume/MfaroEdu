@@ -17,6 +17,11 @@ export interface School {
   timezone: string;
   currency: string;
   brand_color: string;
+  website?: string;
+  logo_data?: string;
+  report_title?: string;
+  report_footer?: string;
+  report_layout?: 'STANDARD' | 'COMPACT';
   version: number;
 }
 export interface Membership {
