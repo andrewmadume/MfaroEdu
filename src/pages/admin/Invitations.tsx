@@ -11,6 +11,7 @@ interface Invitation {
   expires_at: string;
   revoked: boolean;
   accepted: boolean;
+  accepted_by?: string | null;
 }
 export default function Invitations() {
   const { school, permissions } = useSchool();
@@ -91,6 +92,7 @@ export default function Invitations() {
                 <th>Role</th>
                 <th>Expires</th>
                 <th>Status</th>
+                <th>Accepted account ID</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -109,6 +111,7 @@ export default function Invitations() {
                           ? 'Expired'
                           : 'Pending'}
                   </td>
+                  <td className="mono">{i.accepted_by || '—'}</td>
                   <td>
                     {!i.accepted && !i.revoked && (
                       <button

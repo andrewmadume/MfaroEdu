@@ -21,7 +21,17 @@ async function fixture(page: Page) {
   let actor = a,
     events: any[] = [],
     docs: any[] = [],
-    invites: any[] = [],
+    invites: any[] = [
+      {
+        id: '30000000-0000-4000-8000-000000000001',
+        email: 'accepted@example.test',
+        role_id: 'TEACHER',
+        expires_at: '2030-01-01T00:00:00Z',
+        revoked: false,
+        accepted: true,
+        accepted_by: b,
+      },
+    ],
     school: any = {
       id: tenant,
       name: 'Completion School',
@@ -277,6 +287,7 @@ test('private documents upload, download, archive and expose cleanup controls', 
 test('administrator creates and revokes an email-bound invitation', async ({ page }) => {
   await fixture(page);
   await page.goto('http://127.0.0.1:4174/members');
+  await expect(page.getByRole('cell', { name: b, exact: true })).toBeVisible();
   await page.getByLabel('Invitation email').fill('teacher@example.test');
   await page.getByRole('button', { name: 'Create invitation link' }).click();
   await expect(page.getByLabel('Private invitation link')).toHaveValue(/\/join#token=a{64}$/);

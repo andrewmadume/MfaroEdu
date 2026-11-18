@@ -237,6 +237,9 @@ try {
       ).rows,
       [{ role_id: 'TEACHER' }],
     );
+    await as('admin');
+    const receipts = await tools({ op: 'invitations' });
+    assert.equal(receipts.find((i) => i.id === invitation.id).accepted_by, users.invitee);
   });
   await check('revoked and expired invitations cannot be accepted', async () => {
     await as('admin');

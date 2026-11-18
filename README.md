@@ -2,7 +2,7 @@
 
 This release addresses the November inspection and completes the identified missing code workflows before Phase 8. It adds school invitations, an audience-scoped events calendar, private learner/staff/school documents, teacher/subject imports, additional exports and school/report branding. It fixes cross-account query/editor isolation and the attendance dashboard label.
 
-Read [completion behavior and security mitigation](docs/COMPLETION.md) and the [production acceptance runbook](docs/OPERATIONS.md). There are 23 ordered database migrations. Current production/service acceptance is recorded in [VERIFICATION.md](docs/VERIFICATION.md); implementation tests do not replace physical-device or live Storage/Auth checks.
+Read [completion behavior and security mitigation](docs/COMPLETION.md) and the [production acceptance runbook](docs/OPERATIONS.md). There are 24 ordered database migrations. Current production/service acceptance is recorded in [VERIFICATION.md](docs/VERIFICATION.md); implementation tests do not replace physical-device or live Storage/Auth checks.
 
 # MfaroEdu
 

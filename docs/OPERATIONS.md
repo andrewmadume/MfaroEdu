@@ -6,7 +6,7 @@ Use the production repository `andrewmadume/MfaroEdu`, Vercel project `mfaro-edu
 
 1. Before release, run `npm ci`, `npm run security:check`, `npm run typecheck`, `npm test`, `npm run test:db`, `npm run test:e2e` and `npm run build`.
 2. Publish reviewed source to main. The existing GitHub integrations apply migrations and build Vercel production. Check both systems; a successful frontend build does not prove database deployment.
-3. Match the production `/release.json` commit to the intended GitHub commit. Confirm all 23 migrations in Supabase's Migration History. Check GitHub CI and Vercel build status.
+3. Match the production `/release.json` commit to the intended GitHub commit. Confirm all 24 migrations in Supabase's Migration History. Check GitHub CI and Vercel build status.
 4. Review Supabase Security/Performance Advisors after each schema change. Keep `private` outside exposed schemas and both Storage buckets private. Review Auth, PostgREST and Storage error rates without collecting passwords/tokens or unnecessary personal data.
 5. Assign a named operator to review failed deployments, service errors, quota/capacity and backup status. Alerts must go to a user-approved destination; no external monitoring account or notification subscription is created by this release.
 

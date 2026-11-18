@@ -12,7 +12,7 @@ The production npm audit is clear. Glob and minimatch are overridden to patched 
 
 ## Account invitations
 
-In **People & access**, administrators create a private invitation link for an email and school role. Share it with that recipient through an approved channel. The screen clearly states that it does not send an invitation email. It also lists the latest 50 invitation statuses and supports revocation.
+In **People & access**, administrators create a private invitation link for an email and school role. Share it with that recipient through an approved channel. The screen clearly states that it does not send an invitation email. It also lists the latest 50 invitation statuses and supports revocation. Accepted invitations include the account UUID so administrators can link the correct teacher, guardian or learner profile without external identity-directory access.
 
 Links expire after seven days, are single-use, and bind acceptance to the confirmed email in Supabase Auth. A SHA-256 digest of the high-entropy token is stored server-side; the original link is only returned once. Tokens are stripped from the address bar and retained in sessionStorage while joining. They are never included in audit metadata. A new link for the same email/role revokes the previous pending one. Up to 100 invitation creations per school per day are allowed. A revoked/inactive inviter cannot authorize new acceptance.
 
@@ -50,7 +50,7 @@ Upload is reserve → upload without overwrite → verify stored size/type → f
 
 ## Release and acceptance
 
-Migration `20261118140849_complete_school_workflows.sql` follows the existing 22 migrations. It adds school events, private document metadata/Storage policies, private invitations, bounded data tools and branding columns. New public tables have RLS and no direct client writes. Public RPCs are SECURITY INVOKER; private implementations use a fixed search path and fresh authorization. Production seeds are never deployed.
+Migration `20261118140849_complete_school_workflows.sql` follows the existing 22 migrations; `20261118150417_invitation_account_receipts.sql` adds the manager-only accepted-account receipt. It adds school events, private document metadata/Storage policies, private invitations, bounded data tools and branding columns. New public tables have RLS and no direct client writes. Public RPCs are SECURITY INVOKER; private implementations use a fixed search path and fresh authorization. Production seeds are never deployed.
 
 CI runs TypeScript, unit tests, all database suites, desktop/mobile browser workflows, production dependency/security-mitigation checks and the production/PWA build. `/release.json` exposes only version, commit and build time for release identification; it is not a database-health claim.
 

@@ -24,3 +24,5 @@ Vercel's CSP connect-src is pinned to the production project's HTTPS/WSS origins
 ## v0.7.2 completion release
 
 Apply `20261118140849_complete_school_workflows.sql` after the existing 22 migrations. It adds the private `mfaroedu-documents` bucket, school event/document tables with RLS, private email-bound invitations, additional import/export jobs and branding columns. Keep both Storage buckets private and `private` unexposed. The frontend and database must be verified together before accepting the release. See `docs/OPERATIONS.md` for SMTP, real-role/Storage, physical PWA and backup/restore acceptance. `/release.json` identifies the frontend version/commit and is not a live database health endpoint.
+
+The follow-up `20261118150417_invitation_account_receipts.sql` returns the accepted account UUID only in the already-authorized manager invitation list, for linking directory profiles. There are 24 migrations after this follow-up.
